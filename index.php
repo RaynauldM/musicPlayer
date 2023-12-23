@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
     <head>
         <meta charset="utf-8">
@@ -14,16 +13,31 @@
             <header>
                 <h1>Raynauld's Music Player</h1>
             </header>
-            <div id="albumSelector"class='selector container'><?php include 'logic.php';echo albumSelector(); ?></div>
-            <div id="songSelector"class='selector container'>default songselector</div>
+            <div id="albumSelector" class='selector container'>
+                <?php
+                include 'logic.php';
+                
+                // MySQL connection details
+                $host = 'localhost';
+                $username = 'root';
+                
+                $database = 'musiclib';
+
+                $conn = connectToDatabase($host, $username, $database);
+                createTables($conn);
+                scanLibFolder('lib', $conn);
+
+                // Close the database connection
+                $conn->close();
+                ?>
+            </div>
+            <div id="songSelector" class='selector container'>default songselector</div>
             <main>
-                <audio controls>
-                    
-                </audio>
+                <audio controls></audio>
             </main>
             <footer>default footer</footer>
-        </div
-        
+        </div>
+
         <script src="index.js" async defer></script>
     </body>
 </html>
