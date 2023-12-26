@@ -31,11 +31,13 @@
             ?>
         </div>
         <main>
-            <audio controls></audio>
+            <div id="audioContainer" class='container'>
+                <audio id='audio' controls></audio>
+            </div>
         </main>
-        <!--
+        
         <footer><?php getLibData();?></footer>
--->
+
         
     </div>
 

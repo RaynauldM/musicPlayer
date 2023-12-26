@@ -1,13 +1,18 @@
 let songSelector = document.getElementById("songSelector");
+let footer = document.querySelector("footer");
+let currentArtist;
+let currentRecord;
 
 document.addEventListener("DOMContentLoaded", function () {
   var artists = document.querySelectorAll(".artist");
   artists.forEach(function (artist) {
     artist.addEventListener("click", function () {
-      var artistId = this.getAttribute("data-artist-id");
-      var recordId = this.getAttribute("data-record-id"); // Assuming you have record ID in the artist element
+      artistId = this.getAttribute("data-artist-id");
+      recordId = this.getAttribute("data-record-id"); // Assuming you have record ID in the artist element
+      currentArtist = this.innerText;
+
       showRecords(artistId, recordId);
-      showSongs(artistId, recordId);
+      songSelector.innerText = "Please choose a record to listen to.";
     });
   });
 
@@ -21,6 +26,31 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       }
     });
+
+  songSelector.addEventListener("click", (event) => {
+    if (event.target.classList.contains("song")) {
+      let songName = event.target.innerText;
+      let maudio = document.getElementById("audio");
+      console.log(currentRecord);
+      if (!currentArtist) {
+        maudio.src = "all_songs/" + songName;
+        maudio.play();
+        footer.innerText = "Currently playing the song: " + songName;
+      } else {
+        maudio.src =
+          "lib/" + currentArtist + "/" + currentRecord + "/" + songName;
+        maudio.play();
+        footer.innerText =
+          "Now playing: " +
+          songName +
+          " " +
+          "by " +
+          currentArtist +
+          " from the record: " +
+          currentRecord;
+      }
+    }
+  });
 });
 
 function onClick(event) {
@@ -32,9 +62,12 @@ function onClick(event) {
   }
   switch (className) {
     case "record":
-      var artistId = this.getAttribute("data-artist-id");
-      var recordId = this.getAttribute("data-record-id");
+      artistId = this.getAttribute("data-artist-id");
+      recordId = this.getAttribute("data-record-id");
       showSongs(artistId, recordId);
+      currentRecord = this.innerText;
+
+      break;
   }
 }
 
@@ -68,7 +101,6 @@ function showRecords(artistId, recordId) {
 }
 
 function showSongs(artistId, recordId) {
-  console.log("event fired");
   var url = "getSongs.php?artistId=" + artistId;
   if (recordId) {
     url += "&recordId=" + recordId;
