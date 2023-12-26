@@ -7,37 +7,38 @@
         <meta name="description" content="Music player for my CD files">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="style.css">
+        <script defer src="index.js"></script>
     </head>
     <body>
+        <?php include 'logic.php'; ?>
         <div id="screenContainer" class="container">
+        
             <header>
                 <h1>Raynauld's Music Player</h1>
             </header>
             <div id="albumSelector" class='selector container'>
+                
                 <?php
-                include 'logic.php';
-                
-                // MySQL connection details
-                $host = 'localhost';
-                $username = 'root';
-                
-                $database = 'musiclib';
-
-                $conn = connectToDatabase($host, $username, $database);
-                createTables($conn);
-                scanLibFolder('lib', $conn);
-
-                // Close the database connection
-                $conn->close();
+                    $conn = connectToDatabase('localhost', 'root', 'musiclib');
+                    displayArtists($conn);
                 ?>
             </div>
-            <div id="songSelector" class='selector container'>default songselector</div>
-            <main>
-                <audio controls></audio>
-            </main>
-            <footer>default footer</footer>
+            <div id="songSelector" class='selector container'>
+            <?php
+                $conn = connectToDatabase('localhost', 'root', 'musiclib');
+                $recordId = isset($_GET['recordId']) ? $_GET['recordId'] : null;
+                displaySongs($conn, $recordId); // Pass $recordId when needed
+            ?>
         </div>
+        <main>
+            <audio controls></audio>
+        </main>
+        <!--
+        <footer><?php getLibData();?></footer>
+-->
+        
+    </div>
 
-        <script src="index.js" async defer></script>
-    </body>
+    
+</body>
 </html>

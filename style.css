@@ -44,4 +44,10 @@ footer {
   grid-row-start: 3;
   position: sticky;
   bottom: 0;
+
+  background-color: #f0f0f0;
+  padding: 10px;
+  flex-shrink: 0;
+  max-height: 100px; /* Adjust the maximum height as needed */
+  overflow-y: auto; /* Enable vertical scrolling if the content exceeds the maximum height */
 }
