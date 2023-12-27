@@ -35,19 +35,21 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!currentArtist) {
         maudio.src = "all_songs/" + songName;
         maudio.play();
-        footer.innerText = "Currently playing the song: " + songName;
+        footer.innerText =
+          "Currently playing the song: " +
+          songName.slice(0, -4).replaceAll("_", " ");
       } else {
         maudio.src =
           "lib/" + currentArtist + "/" + currentRecord + "/" + songName;
         maudio.play();
         footer.innerText =
           "Now playing: " +
-          songName +
+          songName.slice(0, -4).replaceAll("_", " ") +
           " " +
           "by " +
-          currentArtist +
+          currentArtist.replace("_", " ").toUpperCase() +
           " from the record: " +
-          currentRecord;
+          currentRecord.replace("_", " ");
       }
     }
   });
