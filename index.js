@@ -12,9 +12,13 @@ document.addEventListener("DOMContentLoaded", function () {
       currentArtist = this.innerText;
 
       showRecords(artistId, recordId);
+
       songSelector.innerText = "Please choose a record to listen to.";
     });
   });
+
+  nameCleanup("albumSelector", "artist");
+  nameCleanup("songSelector", "song", true);
 
   document
     .getElementById("albumSelector")
@@ -98,7 +102,9 @@ function showRecords(artistId, recordId) {
       if (recordId) {
         showSongs(artistId, recordId);
       }
+      nameCleanup("albumSelector", "record");
     })
+
     .catch((error) => console.error("Error:", error));
 }
 
@@ -112,6 +118,20 @@ function showSongs(artistId, recordId) {
     .then((response) => response.text())
     .then((data) => {
       document.getElementById("songSelector").innerHTML = data;
+      nameCleanup("songSelector", "song", true);
     })
     .catch((error) => console.error("Error:", error));
+}
+
+function nameCleanup(contId, btnClass, song = false) {
+  let container = document.getElementById(contId);
+  let children = container.getElementsByClassName(btnClass);
+  for (var i = 0; i < children.length; i++) {
+    if (children[i].innerText.includes("_")) {
+      children[i].innerText = children[i].innerText.replaceAll("_", " ");
+    }
+    if (song) {
+      children[i].innerText = children[i].innerText.slice(0, -4);
+    }
+  }
 }
