@@ -17,9 +17,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  nameCleanup("albumSelector", "artist");
-  nameCleanup("songSelector", "song", true);
-
   document
     .getElementById("albumSelector")
     .addEventListener("click", (event) => {
@@ -102,7 +99,6 @@ function showRecords(artistId, recordId) {
       if (recordId) {
         showSongs(artistId, recordId);
       }
-      nameCleanup("albumSelector", "record");
     })
 
     .catch((error) => console.error("Error:", error));
@@ -118,7 +114,6 @@ function showSongs(artistId, recordId) {
     .then((response) => response.text())
     .then((data) => {
       document.getElementById("songSelector").innerHTML = data;
-      nameCleanup("songSelector", "song", true);
     })
     .catch((error) => console.error("Error:", error));
 }
